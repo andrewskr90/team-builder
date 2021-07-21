@@ -1,8 +1,8 @@
 import logo from './logo.svg';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css';
 import Form from './Form'
-import Axios from 'axios'
+import axios from 'axios'
 
 const initialFormValues = {
   name: '',
@@ -24,15 +24,22 @@ function App() {
       email: formValues.email.trim(),
       role: formValues.role
     }
-    if (!newMember.name || newMember.email || newMember.role)
+    if (!newMember.name || newMember.email || newMember.role) return
       
-    setMembers([newMember, ...members]),
-    setFormValues(initialFormValues)
+    axios.post('fakeapi.com', newMember)
+      .then(res => {
+        const memberFromBackend = res.data
+        setMembers([memberFromBackend, ...members])
+        setFormValues(initialFormValues)
+      })
     
   }
+  useEffect(() => {
+    axios.get('fakeapi.com').then(res => setMembers(res.data))
+  }, [])
   
   return (
-    <div>{members}
+    <div>{members.name},{members.email},{members.role}
     <Form  
       update={updateForm}
       submit={submitForm}

@@ -41,6 +41,7 @@ export default function Form (props) {
                         <option value='graphic'>Graphic Designer</option>
                     </select>
                 </label>
+                <button>Submit</button>
             </div>
         </form>
     )
