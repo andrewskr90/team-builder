@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import React, { useState } from 'react'
 import './App.css';
 import Form from './Form'
+import Axios from 'axios'
 
 const initialFormValues = {
   name: '',
@@ -16,16 +17,20 @@ function App() {
   const updateForm = (inputName, inputValue) => {
     setFormValues({...formValues, [inputName]: inputValue })
   }
-
+  
   const submitForm = () => {
     const newMember = {
-      name: formValues.name.value,
-      email: formValues.email.value,
-      role: formValues.role.value
+      name: formValues.name.trim(),
+      email: formValues.email.trim(),
+      role: formValues.role
     }
-    setMembers(members.push(newMember))
+    if (!newMember.name || newMember.email || newMember.role)
+      
+    setMembers([newMember, ...members]),
+    setFormValues(initialFormValues)
+    
   }
-
+  
   return (
     <div>{members}
     <Form  
