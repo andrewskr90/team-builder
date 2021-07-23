@@ -7,8 +7,10 @@ export default function Form (props) {
     }
 
     const onSubmit = e => {
+        console.log('onSubmit test')
         e.preventDefault()
         submit()
+
     }
 
     return (
@@ -41,8 +43,9 @@ export default function Form (props) {
                         <option value='graphic'>Graphic Designer</option>
                     </select>
                 </label>
-                <button>Submit</button>
+                
             </div>
+            <button>Submit</button>
         </form>
     )
 }

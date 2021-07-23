@@ -1,8 +1,7 @@
 import logo from './logo.svg';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './App.css';
 import Form from './Form'
-import axios from 'axios'
 
 const initialFormValues = {
   name: '',
@@ -10,7 +9,7 @@ const initialFormValues = {
   role: ''
   }
 
-function App() {
+export default function App() {
   const [members, setMembers] = useState([])
   const [formValues, setFormValues] = useState(initialFormValues)
 
@@ -19,34 +18,41 @@ function App() {
   }
   
   const submitForm = () => {
+    console.log('submit form test')
     const newMember = {
       name: formValues.name.trim(),
       email: formValues.email.trim(),
       role: formValues.role
     }
-    if (!newMember.name || newMember.email || newMember.role) return
-      
-    axios.post('fakeapi.com', newMember)
-      .then(res => {
-        const memberFromBackend = res.data
-        setMembers([memberFromBackend, ...members])
-        setFormValues(initialFormValues)
-      })
+    console.log(newMember)
+    if (!newMember.name || !newMember.email || !newMember.role) {
+      console.log('skipped due to missing field')
+      return}
     
+    setMembers([...members,newMember]) 
+    setFormValues(initialFormValues)
   }
-  useEffect(() => {
-    axios.get('fakeapi.com').then(res => setMembers(res.data))
-  }, [])
-  
+  console.log(members)
+
   return (
-    <div>{members.name},{members.email},{members.role}
+    <div>
+      
     <Form  
       update={updateForm}
       submit={submitForm}
       values={formValues}
     />
+    <div>
+      {members.map((obj) => {
+        return (
+        <div>
+          <p>Name: {obj.name}</p>
+          <p>Email: {obj.email}</p>
+          <p>Role: {obj.role}</p>
+        </div>
+        )
+      })}
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
